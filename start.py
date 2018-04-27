@@ -102,16 +102,17 @@ if __name__ == '__main__':
     ServerRobot(prop.get('server', 'server_host'), prop.get('server', 'server_username'),
                 prop.get('server', 'server_password')).run(prop.get('server', 'server_port'),
                                                            prop.get('server', 'number_of_access'))
+    sleep(1)
     for i in range(int(prop.get('server', 'number_of_readers'))):
         client = 'client'+str(i)
         # Create a new reader client
         ClientRobot('reader', prop.get('server', 'server_host'), prop.get('server', 'server_port'),
                     prop.get('readerClients', client+'_host'), prop.get('readerClients', client+'_username'),
                     prop.get('readerClients', client+'_password'), prop.get('readerClients', client+'_id')).\
-            run(delays=random.sample(range(1, 10), int(prop.get('server', 'number_of_access'))))
+            run(delays=random.sample(range(1, 10), int(prop.get('server', 'number_of_access'))-1))
         # Create a new writer client
         ClientRobot('writer', prop.get('server', 'server_host'), prop.get('server', 'server_port'),
                     prop.get('writerClients', client+'_host'), prop.get('writerClients', client+'_username'),
                     prop.get('writerClients', client+'_password'), prop.get('readerClients', client+'_id'),
                     write_val=str(random.sample(range(1, 10), 1)[0])).\
-            run(delays=random.sample(range(1, 10), int(prop.get('server', 'number_of_access'))))
+            run(delays=random.sample(range(1, 10), int(prop.get('server', 'number_of_access'))-1))
